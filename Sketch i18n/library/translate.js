@@ -13,7 +13,7 @@ com.translate = {
     },
     getTextLayersForPage: function(page) {
         var layers = [page children],
-                textLayers = [];
+            textLayers = [];
 
         for (var i = 0; i < layers.count(); i++) {
             var layer = [layers objectAtIndex:i];
@@ -37,7 +37,7 @@ com.translate = {
 
         for (var i = 0; i < textLayers.length; i++) {
             var textLayer = textLayers[i],
-                    stringValue = unescape(textLayer.stringValue());
+                stringValue = unescape(textLayer.stringValue());
 
             localeObject[stringValue] = stringValue;
         }
@@ -67,16 +67,16 @@ com.translate = {
 
     translatePageWithData: function(page, language, data) {
         var pageName = [page name],
-                page = [page copy]
-                page.setName(pageName + ': ' + language),
-                textLayers = this.getTextLayersForPage(page),
-                errorCount = 0;
+            page = [page copy]
+        page.setName(pageName + ': ' + language),
+        textLayers = this.getTextLayersForPage(page),
+        errorCount = 0;
 
         [[doc documentData] addPage:page];
 
         for (var i = 0; i < textLayers.length; i++) {
             var textLayer = textLayers[i],
-                    stringValue = unescape(textLayer.stringValue());
+                stringValue = unescape(textLayer.stringValue());
             if(data[stringValue]){
                 textLayer.setStringValue(data[stringValue]);
                 [textLayer adjustFrameToFit];
@@ -104,43 +104,43 @@ com.translate = {
         var defaultDirectory = [NSURL fileURLWithPath:"~/Documents/"];
         if([doc fileURL]) {
             defaultDirectory = [[doc fileURL] URLByDeletingLastPathComponent]]
-        }
+    }
 
-        [openPanel setCanChooseDirectories:true];
-        [openPanel setCanChooseFiles:true];
-        [openPanel setAllowedFileTypes:['json']];
-        [openPanel setCanCreateDirectories:false];
-        [openPanel setDirectoryURL:defaultDirectory];
-        [openPanel setAllowsMultipleSelection: true]
+    [openPanel setCanChooseDirectories:true];
+    [openPanel setCanChooseFiles:true];
+    [openPanel setAllowedFileTypes:['json']];
+    [openPanel setCanCreateDirectories:false];
+    [openPanel setDirectoryURL:defaultDirectory];
+    [openPanel setAllowsMultipleSelection: true]
 
-        [openPanel setTitle:"Pick a translation file"];
-        [openPanel setPrompt:"Translate"];
+    [openPanel setTitle:"Pick a translation file"];
+    [openPanel setPrompt:"Translate"];
 
-        if ([openPanel runModal] == NSOKButton) {
-            var urls = [openPanel URLs];
-            var errorCount = 0;
+    if ([openPanel runModal] == NSOKButton) {
+        var urls = [openPanel URLs];
+        var errorCount = 0;
 
-            var url, filename, getString;
-            for (var i = 0; i < urls.count(); i++) {
-                url = urls[i];
-                filename = [[url lastPathComponent] stringByDeletingPathExtension];
-                getString = NSString.stringWithContentsOfFile_encoding_error(url, NSUTF8StringEncoding, null);
+        var url, filename, getString;
+        for (var i = 0; i < urls.count(); i++) {
+            url = urls[i];
+            filename = [[url lastPathComponent] stringByDeletingPathExtension];
+            getString = NSString.stringWithContentsOfFile_encoding_error(url, NSUTF8StringEncoding, null);
 
-                if(getString){
-                    data = JSON.parse(getString.toString());
-                    errorCount += this.translatePageWithData(page, filename, data);
-                }
-            }
-            if (errorCount > 0){
-                this.alert('Translation completed with ' + errorCount + ' errors.', null);
-            }else{
-                this.alert('Translation completed successfully', null);
+            if(getString){
+                data = JSON.parse(getString.toString());
+                errorCount += this.translatePageWithData(page, filename, data);
             }
         }
+        if (errorCount > 0){
+            this.alert('Translation completed with ' + errorCount + ' errors.', null);
+        }else{
+            this.alert('Translation completed successfully', null);
+        }
+    }
 
-        return true;
-    },
+    return true;
+},
 
-    debug: false
+debug: false
 
 };
