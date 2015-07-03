@@ -1,6 +1,9 @@
 # Sketch i18n
 Sketch i18n enables you to generate translation files for a page and translate it. It acts in a non-destructive way so you can easily undo your changes later.
 
+## Text Layer Filtering and Text Keys
+This fork provides a way to generate text entries only for those need to be translated. You can do this by setting a layer name prefixed with "str_" for each text layer you want to translate. The text layer names will also be the keys in the translation files. This makes it easier for further processing the translation files to use in iOS and Android projects.
+
 ## Installation
 1. Download the repository from this [link](https://github.com/kristof/sketch-i18n/archive/master.zip).
 2. Grab the `Sketch i18n` folder from the ZIP.
@@ -27,4 +30,6 @@ To propose changes, fork the repository and submit a pull request!
 [@houbenkristof](http://twitter.com/houbenkristof)
 
 ## Contributors
+All credit goes to Kristof Houben [(kristof)](https://github.com/kristof)
+and
 Florian Schulz [(getflourish)](https://github.com/getflourish)
