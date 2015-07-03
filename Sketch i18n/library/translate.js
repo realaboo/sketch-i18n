@@ -11,6 +11,7 @@ com.translate = {
         var app = [NSApplication sharedApplication];
         [app displayDialog:msg withTitle:title];
     },
+
     getTextLayersForPage: function(page) {
         var layers = [page children],
             textLayers = [];
@@ -37,9 +38,12 @@ com.translate = {
 
         for (var i = 0; i < textLayers.length; i++) {
             var textLayer = textLayers[i],
-                stringValue = unescape(textLayer.stringValue());
+                stringValue = unescape(textLayer.stringValue()),
+                stringKey = textLayer.name();
 
-            localeObject[stringValue] = stringValue;
+            if (stringKey.indexOf('str_') == 0) {
+                localeObject[stringKey] = stringValue;
+            }
         }
 
         var localeJsonString = JSON.stringify(localeObject, undefined, 2);
@@ -76,12 +80,15 @@ com.translate = {
 
         for (var i = 0; i < textLayers.length; i++) {
             var textLayer = textLayers[i],
-                stringValue = unescape(textLayer.stringValue());
-            if(data[stringValue]){
-                textLayer.setStringValue(data[stringValue]);
-                [textLayer adjustFrameToFit];
-            }else{
-                errorCount++;
+                stringKey = textLayer.name();
+
+            if (stringKey.indexOf('str_') == 0) {
+                if(data[stringKey]){
+                    textLayer.setStringValue(data[stringKey]);
+                    [textLayer adjustFrameToFit];
+                }else{
+                    errorCount++;
+                }
             }
         }
 
